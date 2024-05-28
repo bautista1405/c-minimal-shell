@@ -65,7 +65,7 @@ char *lsh_read_line(void)
             buffer = realloc(buffer, bufsize);
             if (!buffer)
             {
-                frintf(stderr, "lsh: allocation error\n");
+                fprintf(stderr, "lsh: allocation error\n");
                 exit(EXIT_FAILURE);
             }
         }
