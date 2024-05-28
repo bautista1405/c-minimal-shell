@@ -71,3 +71,4 @@ char *lsh_read_line(void)
         }
     }
 }
+// Note: newer versions of the C library provide a getline() function in stdio.h that does most of the work we just implemented
