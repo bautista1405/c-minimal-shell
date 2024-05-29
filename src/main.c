@@ -113,9 +113,11 @@ char **lsh_split_line(char *line)
 
 int lsh_launch(char **args)
 {
+    //`pid_t` for uniquely identifying and managing processes in Unix-like systems
     pid_t pid, wpid;
     int status;
 
+    // create new processes (parent and child)
     pid = fork();
     if (pid == 0)
     {
@@ -140,4 +142,25 @@ int lsh_launch(char **args)
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
     return 1;
+}
+
+// function declarations for built-in shell commands
+int lsh_cd(char **args);
+int lsh_help(char **args);
+int lsh_exit(char **args);
+
+// list of built-in commands followed by their corresponding functions
+char *builtin_str[] = {
+    "cd",
+    "help",
+    "exit"};
+
+int (*builtin_func[])(char **) = {
+    &lsh_cd,
+    &lsh_help,
+    &lsh_exit};
+
+int lsh_num_builtins()
+{
+    return sizeof(builtin_str) / sizeof(char *);
 }
