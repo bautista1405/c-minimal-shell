@@ -145,6 +145,7 @@ int lsh_launch(char **args)
 }
 
 // function declarations for built-in shell commands
+// forward declaration is when you declare (but don’t define) something, so that you can use its name before you define it
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
@@ -155,6 +156,7 @@ char *builtin_str[] = {
     "help",
     "exit"};
 
+// built-in commands can be added simply by modifying these arrays
 int (*builtin_func[])(char **) = {
     &lsh_cd,
     &lsh_help,
@@ -201,4 +203,24 @@ int lsh_help(char **args)
 int lsh_exit(char **args)
 {
     return 0;
+}
+
+int lsh_execute(char **args)
+{
+    int i;
+
+    if (args[0] == NULL)
+    {
+        // an empty command was entered
+        return 1;
+    }
+
+    for (i = 0; i < ls_num_builtins(); i++)
+    {
+        if (strcmp(args[0], builtin_str[i] == 0))
+        {
+            return (*builtin_func[i])(args);
+        }
+    }
+    return lsh_launch(args);
 }
